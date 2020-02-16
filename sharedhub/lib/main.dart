@@ -15,20 +15,40 @@ class MainScreen extends StatelessWidget {
     return MaterialApp(
         home: Scaffold(
       body: SafeArea(
-          child: Container(
-        decoration: BoxDecoration(color: Colors.red),
-        padding: EdgeInsets.all(2),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: Column(
           children: <Widget>[
-            Icon(
-              Icons.supervised_user_circle,
-              color: Colors.blue,
+            InkWell(
+              onTap: () => Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => Splash())),
+              child: Container(
+                height: 65,
+                decoration: BoxDecoration(color: Colors.black),
+                padding: EdgeInsets.all(2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Icon(
+                      Icons.supervised_user_circle,
+                      color: Colors.blue,
+                      size: 40,
+                    ),
+                    SizedBox(
+                      width: 7,
+                    ),
+                    Text(
+                      "The Cat in the hat!",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
+                    )
+                  ],
+                ),
+              ),
             ),
-            Text("Screen name!")
+            Column(
+              children: <Widget>[Text("data"), Text("data2")],
+            )
           ],
         ),
-      )),
+      ),
     ));
   }
 }
