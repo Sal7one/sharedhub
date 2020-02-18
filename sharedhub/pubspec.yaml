@@ -1,14 +1,5 @@
 name: sharedhub
-description: A new Flutter project.
-
-
-
-
-
-
-
-
-
+description: Sharehub your place for sharing accounts
 
 
 version: 1.0.0+1
@@ -19,25 +10,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
-  
   
   cupertino_icons: ^0.1.3
+  http: 0.12.0+4
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
 
-
-
-
 flutter:
-
-  
-  
-  
   uses-material-design: true
 
   
