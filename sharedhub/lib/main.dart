@@ -179,32 +179,3 @@ class _listhandlerState extends State<listhandler> {
     );
   }
 }
-
-/* Text(
-                        "sponserd is " +
-                            response.data.mydata[index]['sponsored'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Icon(Icons.supervised_user_circle),
-                          Text(
-                              response.data.mydata[index]['username']
-                                  .toString(),
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15)),
-                          RaisedButton(
-                            onPressed: null,
-                            child: Text("Copy!"),
-                          ),
-                          RaisedButton(
-                            onPressed: null,
-                            child: Text("Add!"),
-                          )
-                        ],
-                      ),
-                      Text(
-                        "About me: " +
-                            response.data.mydata[index]['posttext'].toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      ) */

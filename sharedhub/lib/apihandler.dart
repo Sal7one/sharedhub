@@ -6,8 +6,7 @@ import 'package:http/http.dart' as http;
 //How does this work? in Flutter??????? WHAT IS FUTURE?? Checkout this article out https://medium.com/flutter-community/working-with-apis-in-flutter-8745968103e9 I RECCOMEND READING THIS
 
 Future<Post> fetchPost(url) async {
-//  String url = 'http://www.json-generator.com/api/json/get/bVIuzylPTm?indent=2';
-
+//load more + custom url here url + index we got from init last item from database to future to contriller scroll ----- > database
   final response = await http.get(url);
 
   if (response.statusCode == 200) {
@@ -22,10 +21,9 @@ Future<Post> fetchPost(url) async {
 class Post {
   final mydata;
 
-
-  Post(
-      {this.mydata,
-});
+  Post({
+    this.mydata,
+  });
 
   factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
