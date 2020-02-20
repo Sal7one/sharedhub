@@ -81,7 +81,6 @@ class _listhandlerState extends State<listhandler> {
       sponsereduserid,
       sponseredplatform = [];
   List<int> postid, votes, sponseredpostid, sponseredvotes = [];
-  bool isloading;
   List<bool> sponsered, hidden = [];
   ScrollController usersscrollcontroller, sponseredcontroller;
   int postSize, sponseredSize;
@@ -113,7 +112,6 @@ class _listhandlerState extends State<listhandler> {
     sponseredpostid = [];
     sponseredvotes = [];
     sponseredposttext = [];
-    isloading = false;
     postSize = 0;
     sponseredSize = 0;
     usersscrollcontroller = new ScrollController();
@@ -141,7 +139,7 @@ class _listhandlerState extends State<listhandler> {
 
       setState(() {
         post = fetchPost(
-            'http://www.json-generator.com/api/json/get/cexPIzgQte?indent=2');
+            'http://www.json-generator.com/api/json/get/bOCobltOHm?indent=2');
       });
     });
   }
@@ -190,15 +188,31 @@ class _listhandlerState extends State<listhandler> {
             //If we already have that post in the array. Don't add it, nor it's elemnts
 
             //If post not hidden / and not already in the list and not sponsered
-            if (response.data.myposts[i]['hidden'] != true) if (!postid
-                    .contains(response.data.myposts[i]['postid']) &&
-                response.data.myposts[i]['sponsored'] == false) {
-              username.add(response.data.myposts[i]['username'].toString());
-              posttext.add(response.data.myposts[i]['posttext'].toString());
-              userid.add(response.data.myposts[i]['userid'].toString());
-              platform.add(response.data.myposts[i]['platform'].toString());
-              postid.add(response.data.myposts[i]['postid']);
-              votes.add(response.data.myposts[i]['votes']);
+            if (response.data.myposts[i]['hidden'] != true) {
+              if (!postid.contains(response.data.myposts[i]['postid'])) {
+                if (response.data.myposts[i]['sponsored'] == false) {
+                  username.add(response.data.myposts[i]['username'].toString());
+                  posttext.add(response.data.myposts[i]['posttext'].toString());
+                  userid.add(response.data.myposts[i]['userid'].toString());
+                  platform.add(response.data.myposts[i]['platform'].toString());
+                  postid.add(response.data.myposts[i]['postid']);
+                  votes.add(response.data.myposts[i]['votes']);
+                } else if (!sponseredpostid
+                    .contains(response.data.myposts[i]['postid'])) {
+                  sponseredusername.add(
+                      response.data.mysponseredposts[i]['username'].toString());
+                  sponseredposttext.add(
+                      response.data.mysponseredposts[i]['posttext'].toString());
+                  sponsereduserid.add(
+                      response.data.mysponseredposts[i]['userid'].toString());
+                  sponseredplatform.add(
+                      response.data.mysponseredposts[i]['platform'].toString());
+                  sponseredpostid
+                      .add(response.data.mysponseredposts[i]['postid']);
+                  sponseredvotes
+                      .add(response.data.mysponseredposts[i]['votes']);
+                }
+              }
             }
           }
 
@@ -232,9 +246,9 @@ class _listhandlerState extends State<listhandler> {
           //Snackbar notifcation if maxed reachd DATABSE OR FLUTTER?
 
           //Horziantal list
-          // if (sponseredpostid.length < 2) {
-          //  getmoresponseredposts();
-          //  }
+          if (sponseredpostid.length < 1) {
+            getmoresponseredposts();
+          }
           Sponserdlist() {
             return ListView.builder(
               scrollDirection: Axis.horizontal,
@@ -243,6 +257,7 @@ class _listhandlerState extends State<listhandler> {
               itemBuilder: (context, index) {
                 return Container(
                   height: 80,
+                  width: 420,
                   child: Card(
                     color: Colors.red,
                     child: Column(
@@ -301,77 +316,79 @@ class _listhandlerState extends State<listhandler> {
             );
           }
 
-          if (postid.length < 3) {
-            getmoreposts();
-          }
-          return ListView.builder(
-            controller: usersscrollcontroller,
-            itemCount: postid.length,
-            itemBuilder: (context, index) {
-              //Don't show sopnsered if the length of it's posts is less that 1
-              if (isloading && index == postid.length - 1)
-                return CupertinoActivityIndicator();
-              else
-                return (index == 0 && sponseredpostid.length == 69)
-                    ? SizedBox(height: 250, child: Sponserdlist())
-                    : Container(
-                        height: 250,
-                        child: Card(
-                          color: Colors.blue,
-                          child: Column(
-                            children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Image.network(
-                                    img,
-                                    height: 50,
-                                    width: 50,
-                                  ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                  Column(
-                                    children: <Widget>[
-                                      Text("  " +
-                                          platform[index] +
-                                          " Username:"),
-                                      Text(
-                                        " " + username[index],
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    width: 60,
-                                  ),
-                                  RaisedButton(
-                                    onPressed: () {},
-                                    color: Colors.red,
-                                    child: Text("Copy"),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  Text("About me: "),
-                                  Container(
-                                    decoration:
-                                        BoxDecoration(color: Colors.white),
-                                    padding: EdgeInsets.all(15),
-                                    child: Text(posttext[index]),
-                                  ),
-                                ],
-                              ),
-                              Text("userid is " + userid[index]),
-                              Text("platform is " + platform[index]),
-                              Text("postid is " + postid[index].toString()),
-                              Text("votes is " + votes[index].toString()),
-                            ],
-                          ),
+          PostsList() {
+            return ListView.builder(
+              controller: usersscrollcontroller,
+              itemCount: postid.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                //Don't show sopnsered if the length of it's posts is less that 1
+                return Container(
+                  height: 250,
+                  child: Card(
+                    color: Colors.blue,
+                    child: Column(
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Image.network(
+                              img,
+                              height: 50,
+                              width: 50,
+                            ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                            Column(
+                              children: <Widget>[
+                                Text("  " + platform[index] + " Username:"),
+                                Text(
+                                  " " + username[index],
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 60,
+                            ),
+                            RaisedButton(
+                              onPressed: () {},
+                              color: Colors.red,
+                              child: Text("Copy"),
+                            )
+                          ],
                         ),
-                      );
-            },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text("About me: "),
+                            Container(
+                              decoration: BoxDecoration(color: Colors.white),
+                              padding: EdgeInsets.all(15),
+                              child: Text(posttext[index]),
+                            ),
+                          ],
+                        ),
+                        Text("userid is " + userid[index]),
+                        Text("platform is " + platform[index]),
+                        Text("postid is " + postid[index].toString()),
+                        Text("votes is " + votes[index].toString()),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            );
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(height: 250.0, child: Sponserdlist()),
+                SizedBox(child: PostsList()),
+              ],
+            ),
           );
         },
       ),
