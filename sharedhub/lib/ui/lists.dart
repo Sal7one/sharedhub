@@ -370,7 +370,6 @@ class _listhandlerState extends State<listhandler> {
                                           else
                                             setState(() {
                                               _selectedIndex = index;
-
                                               downpressed = true;
                                             });
                                         },
