@@ -29,6 +29,7 @@ class _listhandlerState extends State<listhandler> {
   int postSize, sponseredSize;
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
+  int _selectedIndex;
 
   String url = 'http://www.json-generator.com/api/json/get/cqgOiUXCSq?indent=2';
 
@@ -47,6 +48,8 @@ class _listhandlerState extends State<listhandler> {
     userid = [];
     platform = [];
     postid = [];
+    _selectedIndex = 0;
+
     votes = [];
     sponsered = [];
     hidden = [];
@@ -111,6 +114,10 @@ class _listhandlerState extends State<listhandler> {
             'http://www.json-generator.com/api/json/get/celsEkkIlK?indent=2');
       });
     });
+  }
+
+  _onSelected(int index) {
+    setState(() => _selectedIndex = index);
   }
 
   // Controller clean up
@@ -325,28 +332,48 @@ class _listhandlerState extends State<listhandler> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    IconButton(
-                                      color: uppressed
-                                          ? Colors.orange
-                                          : Colors.grey,
-                                      onPressed: () {
-                                        if (!uppressed)
-                                          setState(() {
-                                            uppressed = false;
-                                          });
-                                        else
-                                          setState(() {
-                                            uppressed = true;
-                                          });
-                                      },
-                                      icon: Icon(Icons.arrow_upward),
+                                    GestureDetector(
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_upward),
+                                        color:
+                                            uppressed && index == _selectedIndex
+                                                ? Colors.deepOrange
+                                                : Colors.black,
+                                        onPressed: () {
+                                          if (uppressed)
+                                            setState(() {
+                                              _selectedIndex = index;
+                                              uppressed = false;
+                                            });
+                                          else
+                                            setState(() {
+                                              _selectedIndex = index;
+
+                                              uppressed = true;
+                                            });
+                                        },
+                                      ),
                                     ),
                                     GestureDetector(
-                                      child: Icon(
-                                        Icons.arrow_downward,
-                                        color: downpressed
+                                      child: IconButton(
+                                        icon: Icon(Icons.arrow_downward),
+                                        color: downpressed &&
+                                                index == _selectedIndex
                                             ? Colors.deepPurple
-                                            : Colors.grey,
+                                            : Colors.black,
+                                        onPressed: () {
+                                          if (downpressed)
+                                            setState(() {
+                                              _selectedIndex = index;
+                                              downpressed = false;
+                                            });
+                                          else
+                                            setState(() {
+                                              _selectedIndex = index;
+
+                                              downpressed = true;
+                                            });
+                                        },
                                       ),
                                     )
                                   ],
