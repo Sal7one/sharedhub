@@ -63,7 +63,7 @@ class _listhandlerState extends State<listhandler> {
     uppressed = false;
     downpressed = false;
     sponseredSize = 0;
-    loading = true;
+    loading = false;
     usersscrollcontroller = new ScrollController();
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
@@ -95,7 +95,7 @@ class _listhandlerState extends State<listhandler> {
       print("requested");
 
       setState(() {
-        loading = true;
+        loading = false;
         post = fetchPost(
             'http://www.json-generator.com/api/json/get/bOCobltOHm?indent=2');
       });
@@ -153,29 +153,28 @@ class _listhandlerState extends State<listhandler> {
 
             //If post not hidden / and not already in the list and not sponsered
             if (response.data.myposts[i]['hidden'] != true) {
-              if (!postid.contains(response.data.myposts[i]['postid'])) {
-                if (response.data.myposts[i]['sponsored'] == false) {
+              if (response.data.myposts[i]['sponsored'] == false) {
+                if (!postid.contains(response.data.myposts[i]['postid'])) {
                   username.add(response.data.myposts[i]['username'].toString());
                   posttext.add(response.data.myposts[i]['posttext'].toString());
                   userid.add(response.data.myposts[i]['userid'].toString());
                   platform.add(response.data.myposts[i]['platform'].toString());
                   postid.add(response.data.myposts[i]['postid']);
                   votes.add(response.data.myposts[i]['votes']);
-                } else if (!sponseredpostid
-                    .contains(response.data.myposts[i]['postid'])) {
-                  sponseredusername.add(
-                      response.data.mysponseredposts[i]['username'].toString());
-                  sponseredposttext.add(
-                      response.data.mysponseredposts[i]['posttext'].toString());
-                  sponsereduserid.add(
-                      response.data.mysponseredposts[i]['userid'].toString());
-                  sponseredplatform.add(
-                      response.data.mysponseredposts[i]['platform'].toString());
-                  sponseredpostid
-                      .add(response.data.mysponseredposts[i]['postid']);
-                  sponseredvotes
-                      .add(response.data.mysponseredposts[i]['votes']);
                 }
+              } else if (!sponseredpostid
+                  .contains(response.data.myposts[i]['postid'])) {
+                sponseredusername.add(
+                    response.data.mysponseredposts[i]['username'].toString());
+                sponseredposttext.add(
+                    response.data.mysponseredposts[i]['posttext'].toString());
+                sponsereduserid.add(
+                    response.data.mysponseredposts[i]['userid'].toString());
+                sponseredplatform.add(
+                    response.data.mysponseredposts[i]['platform'].toString());
+                sponseredpostid
+                    .add(response.data.mysponseredposts[i]['postid']);
+                sponseredvotes.add(response.data.mysponseredposts[i]['votes']);
               }
             }
           }
