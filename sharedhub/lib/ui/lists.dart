@@ -20,9 +20,9 @@ class _listhandlerState extends State<listhandler> {
       sponseredusername,
       sponseredposttext,
       sponsereduserid,
-      sponseredplatform = [];
-  List<int> postid, votes, sponseredpostid, sponseredvotes = [];
-  List<bool> sponsered, hidden = [];
+      sponseredplatform;
+  List<int> postid, votes, sponseredpostid, sponseredvotes;
+  List<bool> sponsered, hidden;
   ScrollController usersscrollcontroller,
       sponseredcontroller,
       _scrollController;
@@ -30,7 +30,9 @@ class _listhandlerState extends State<listhandler> {
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
   int _selectedIndex;
+  List<bool> _isLiked;
 
+  String thingy = "";
   String url = 'http://www.json-generator.com/api/json/get/cqgOiUXCSq?indent=2';
 
   //Every itration fetch a new post data post id only needed :P
@@ -48,7 +50,7 @@ class _listhandlerState extends State<listhandler> {
     userid = [];
     platform = [];
     postid = [];
-    _selectedIndex = 0;
+    _selectedIndex = 6969691345;
 
     votes = [];
     sponsered = [];
@@ -68,6 +70,7 @@ class _listhandlerState extends State<listhandler> {
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
+    _isLiked = [true, true];
 
     _scrollController = new ScrollController(
       initialScrollOffset: 0.0,
@@ -76,6 +79,8 @@ class _listhandlerState extends State<listhandler> {
 
     //Call the latest list elemnts from DB and it should only return 15
     // TODO FETCH SPONSERS ALONE <---- Important for Ui to work with all indexes not 15 only
+
+    //Store user device id.... send
     post = fetchPost(url);
 
     _scrollController.addListener(() {
@@ -178,6 +183,8 @@ class _listhandlerState extends State<listhandler> {
               }
             }
           }
+
+          print(thingy);
 
           // TODO Get all item list for sponsered and non sponsered spertialy and check if max == to both list indivuily and show a snack bar and time out the request controller :D
           // postid.length == max? ,,,, sponseredpostid.length
@@ -331,48 +338,82 @@ class _listhandlerState extends State<listhandler> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    GestureDetector(
-                                      child: IconButton(
-                                        icon: Icon(Icons.arrow_upward),
-                                        color:
-                                            uppressed && index == _selectedIndex
-                                                ? Colors.deepOrange
-                                                : Colors.black,
-                                        onPressed: () {
-                                          if (uppressed)
-                                            setState(() {
-                                              _selectedIndex = index;
-                                              uppressed = false;
-                                            });
-                                          else
-                                            setState(() {
-                                              _selectedIndex = index;
+                                    IconButton(
+                                      icon: Icon(Icons.arrow_upward),
+                                      color: _isLiked[index]
+                                          ? Colors.red
+                                          : Colors.black,
+                                      onPressed: () {
+                                        if (uppressed &&
+                                            _selectedIndex == index)
+                                          setState(() {
+                                            thingy = "Remove same vote " +
+                                                index.toString();
+                                            _selectedIndex = index;
+                                            _isLiked[index] = !_isLiked[index];
 
-                                              uppressed = true;
-                                            });
-                                        },
-                                      ),
+                                            uppressed = false;
+                                          });
+                                        else if (_selectedIndex != index)
+                                          setState(() {
+                                            _isLiked[index] = !_isLiked[index];
+
+                                            _selectedIndex = index;
+                                            thingy =
+                                                "new vote " + index.toString();
+                                            uppressed = true;
+                                            downpressed = false;
+                                          });
+                                        else
+                                          setState(() {
+                                            thingy = "changing votes  " +
+                                                index.toString();
+                                            _isLiked[index] = !_isLiked[index];
+
+                                            uppressed = true;
+                                            downpressed = false;
+                                          });
+                                      },
                                     ),
-                                    GestureDetector(
-                                      child: IconButton(
-                                        icon: Icon(Icons.arrow_downward),
-                                        color: downpressed &&
-                                                index == _selectedIndex
-                                            ? Colors.deepPurple
-                                            : Colors.black,
-                                        onPressed: () {
-                                          if (downpressed)
-                                            setState(() {
-                                              _selectedIndex = index;
-                                              downpressed = false;
-                                            });
-                                          else
-                                            setState(() {
-                                              _selectedIndex = index;
-                                              downpressed = true;
-                                            });
-                                        },
-                                      ),
+                                    SizedBox(
+                                      width: 80,
+                                    ),
+                                    IconButton(
+                                      icon: Icon(Icons.arrow_downward),
+                                      color: _isLiked[index]
+                                          ? Colors.red
+                                          : Colors.black,
+                                      onPressed: () {
+                                        if (downpressed &&
+                                            _selectedIndex == index)
+                                          setState(() {
+                                            thingy = "Remove same vote " +
+                                                index.toString();
+                                            _selectedIndex = index;
+                                            _isLiked[index] = !_isLiked[index];
+
+                                            downpressed = false;
+                                          });
+                                        else if (_selectedIndex != index)
+                                          setState(() {
+                                            _isLiked[index] = !_isLiked[index];
+
+                                            _selectedIndex = index;
+                                            thingy =
+                                                "new vote " + index.toString();
+                                            downpressed = true;
+                                            uppressed = false;
+                                          });
+                                        else
+                                          setState(() {
+                                            thingy = "changing votes  " +
+                                                index.toString();
+                                            _isLiked[index] = !_isLiked[index];
+
+                                            downpressed = true;
+                                            uppressed = false;
+                                          });
+                                      },
                                     )
                                   ],
                                 ),
@@ -390,9 +431,10 @@ class _listhandlerState extends State<listhandler> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                sponseredpostid.length > 0
-                    ? SizedBox(height: 250.0, child: Sponserdlist())
-                    : null,
+                //
+                //sponseredpostid.length > 0
+                //   ? SizedBox(height: 250.0, child: Sponserdlist())
+                //    : null,
                 SizedBox(child: PostsList()),
               ],
             ),
@@ -402,3 +444,32 @@ class _listhandlerState extends State<listhandler> {
     );
   }
 }
+
+/*
+if (downpressed &&
+                                            _selectedIndex == index)
+                                          setState(() {
+                                            thingy = "Remove same vote " +
+                                                index.toString();
+                                            _selectedIndex = index;
+                                            downpressed = false;
+                                          });
+                                        else if (_selectedIndex != index)
+                                          setState(() {
+                                            thingy =
+                                                "new vote " + index.toString();
+
+                                            _selectedIndex = index;
+                                            downpressed = true;
+                                            uppressed = false;
+                                          });
+                                        else
+                                          setState(() {
+                                            thingy = "changing votes  " +
+                                                index.toString();
+                                            downpressed = true;
+                                            uppressed = false;
+                                          });
+                                      },
+
+                                       */
