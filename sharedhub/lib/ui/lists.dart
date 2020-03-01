@@ -30,7 +30,7 @@ class _listhandlerState extends State<listhandler> {
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
   int _selectedIndex;
-  List<bool> _isLiked;
+  List<bool> _isLiked, _isDisLiked;
 
   String thingy = "";
   String url = 'http://www.json-generator.com/api/json/get/cqgOiUXCSq?indent=2';
@@ -70,7 +70,8 @@ class _listhandlerState extends State<listhandler> {
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
-    _isLiked = [true, true];
+    _isLiked = [false, true];
+    _isDisLiked = [true, false];
 
     _scrollController = new ScrollController(
       initialScrollOffset: 0.0,
@@ -344,35 +345,27 @@ class _listhandlerState extends State<listhandler> {
                                           ? Colors.red
                                           : Colors.black,
                                       onPressed: () {
-                                        if (uppressed &&
-                                            _selectedIndex == index)
+                                        if (_isDisLiked[index] == true) {
+                                          _isDisLiked[index] =
+                                              !_isDisLiked[index];
+                                        }
+
+                                        if (_selectedIndex == index)
                                           setState(() {
                                             thingy = "Remove same vote " +
                                                 index.toString();
                                             _selectedIndex = index;
                                             _isLiked[index] = !_isLiked[index];
-
-                                            uppressed = false;
                                           });
-                                        else if (_selectedIndex != index)
+                                        else if (_selectedIndex != index) {
                                           setState(() {
                                             _isLiked[index] = !_isLiked[index];
 
                                             _selectedIndex = index;
                                             thingy =
                                                 "new vote " + index.toString();
-                                            uppressed = true;
-                                            downpressed = false;
                                           });
-                                        else
-                                          setState(() {
-                                            thingy = "changing votes  " +
-                                                index.toString();
-                                            _isLiked[index] = !_isLiked[index];
-
-                                            uppressed = true;
-                                            downpressed = false;
-                                          });
+                                        }
                                       },
                                     ),
                                     SizedBox(
@@ -380,39 +373,32 @@ class _listhandlerState extends State<listhandler> {
                                     ),
                                     IconButton(
                                       icon: Icon(Icons.arrow_downward),
-                                      color: _isLiked[index]
+                                      color: _isDisLiked[index]
                                           ? Colors.red
                                           : Colors.black,
                                       onPressed: () {
-                                        if (downpressed &&
-                                            _selectedIndex == index)
+                                        if (_isLiked[index] == true) {
+                                          _isLiked[index] = !_isLiked[index];
+                                        }
+
+                                        if (_selectedIndex == index)
                                           setState(() {
                                             thingy = "Remove same vote " +
                                                 index.toString();
                                             _selectedIndex = index;
-                                            _isLiked[index] = !_isLiked[index];
-
-                                            downpressed = false;
+                                            _isDisLiked[index] =
+                                                !_isDisLiked[index];
                                           });
-                                        else if (_selectedIndex != index)
+                                        else if (_selectedIndex != index) {
                                           setState(() {
-                                            _isLiked[index] = !_isLiked[index];
+                                            _isDisLiked[index] =
+                                                !_isDisLiked[index];
 
                                             _selectedIndex = index;
                                             thingy =
                                                 "new vote " + index.toString();
-                                            downpressed = true;
-                                            uppressed = false;
                                           });
-                                        else
-                                          setState(() {
-                                            thingy = "changing votes  " +
-                                                index.toString();
-                                            _isLiked[index] = !_isLiked[index];
-
-                                            downpressed = true;
-                                            uppressed = false;
-                                          });
+                                        }
                                       },
                                     )
                                   ],
