@@ -70,8 +70,8 @@ class _listhandlerState extends State<listhandler> {
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
-    _isLiked = [false, true];
-    _isDisLiked = [true, false];
+    _isLiked = [];
+    _isDisLiked = [];
 
     _scrollController = new ScrollController(
       initialScrollOffset: 0.0,
@@ -167,6 +167,8 @@ class _listhandlerState extends State<listhandler> {
                   platform.add(response.data.myposts[i]['platform'].toString());
                   postid.add(response.data.myposts[i]['postid']);
                   votes.add(response.data.myposts[i]['votes']);
+                  _isLiked.add(false);
+                  _isDisLiked.add(false);
                 }
               } else if (!sponseredpostid
                   .contains(response.data.myposts[i]['postid'])) {
@@ -355,6 +357,7 @@ class _listhandlerState extends State<listhandler> {
                                             thingy = "Remove same vote " +
                                                 index.toString();
                                             _selectedIndex = index;
+
                                             _isLiked[index] = !_isLiked[index];
                                           });
                                         else if (_selectedIndex != index) {
@@ -386,6 +389,7 @@ class _listhandlerState extends State<listhandler> {
                                             thingy = "Remove same vote " +
                                                 index.toString();
                                             _selectedIndex = index;
+
                                             _isDisLiked[index] =
                                                 !_isDisLiked[index];
                                           });
