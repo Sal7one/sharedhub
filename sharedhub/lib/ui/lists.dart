@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharedhub/api/apihandler.dart';
@@ -29,6 +31,7 @@ class _listhandlerState extends State<listhandler> {
   int postSize, sponseredSize;
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
+  var platformcolor = new HashMap();
   int _selectedIndex;
   List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
 
@@ -70,6 +73,13 @@ class _listhandlerState extends State<listhandler> {
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
+    platformcolor['Twitter'] = Colors.cyan;
+    platformcolor['Snapchat'] = Colors.yellow;
+    platformcolor['Nintendo'] = Colors.red;
+    platformcolor['Steam'] = Colors.black;
+    platformcolor['Playstation'] = Colors.blue;
+    platformcolor['Xbox'] = Colors.green;
+
     _isLiked = [];
     _isLikedsponsered = [];
     _isDisLiked = [];
@@ -354,27 +364,31 @@ class _listhandlerState extends State<listhandler> {
                 return (index == postid.length - 1 && loading)
                     ? CupertinoActivityIndicator()
                     : Container(
-                        height: 180,
+                        height: 250,
                         child: Card(
                           semanticContainer: true,
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape:
-                              Border.all(width: 0.6, color: Colors.deepPurple),
+                          shape: Border.all(
+                              width: 2.6,
+                              color: platformcolor[platform[index]]),
                           color: Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                             child: Column(
                               children: <Widget>[
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Image.network(
-                                      img,
-                                      height: 30,
-                                      width: 30,
+                                      "https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/playstation-512.png",
+                                      width: 50,
                                     ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
                                     SizedBox(
-                                      width: 20,
+                                      width: 15,
                                     ),
                                     Column(
                                       children: <Widget>[
@@ -421,7 +435,7 @@ class _listhandlerState extends State<listhandler> {
                                     IconButton(
                                       icon: Icon(Icons.arrow_upward),
                                       color: _isLiked[index]
-                                          ? Colors.red
+                                          ? Colors.green[600]
                                           : Colors.black,
                                       onPressed: () {
                                         if (_isDisLiked[index] == true) {
@@ -454,7 +468,7 @@ class _listhandlerState extends State<listhandler> {
                                     IconButton(
                                       icon: Icon(Icons.arrow_downward),
                                       color: _isDisLiked[index]
-                                          ? Colors.red
+                                          ? Colors.orange[900]
                                           : Colors.black,
                                       onPressed: () {
                                         if (_isLiked[index] == true) {
@@ -498,9 +512,9 @@ class _listhandlerState extends State<listhandler> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                sponseredpostid.length > 0
-                    ? SizedBox(height: 250.0, child: Sponserdlist())
-                    : null,
+                // sponseredpostid.length > 0
+                //  ? SizedBox(height: 250.0, child: Sponserdlist())
+                //    : null,
                 SizedBox(child: PostsList()),
               ],
             ),
