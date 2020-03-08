@@ -355,6 +355,8 @@ class _listhandlerState extends State<listhandler> {
             );
           }
 
+          if (postid.length < 3) getmoreposts();
+
           PostsList() {
             return ListView.builder(
               controller: usersscrollcontroller,
@@ -379,7 +381,7 @@ class _listhandlerState extends State<listhandler> {
                                 Row(
                                   children: <Widget>[
                                     Image.network(
-                                      "https://cdn3.iconfinder.com/data/icons/popular-services-brands-vol-2/512/playstation-512.png",
+                                      "SOICAL MEDIA IMAGE HERE",
                                       width: 50,
                                     ),
                                   ],
