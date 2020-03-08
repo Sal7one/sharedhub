@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sharedhub/ui/header.dart';
-import 'ui/splashscreen.dart';
-import 'ui/lists.dart';
+import 'package:sharedhub/ui/mainscreen/header.dart';
+import 'ui/auth/splashscreen.dart';
+import 'ui//mainscreen/lists.dart';
 
 void main() => runApp(
       MaterialApp(

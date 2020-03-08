@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharedhub/api/apihandler.dart';
@@ -29,8 +31,9 @@ class _listhandlerState extends State<listhandler> {
   int postSize, sponseredSize;
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
+  var platformcolor = new HashMap();
   int _selectedIndex;
-  List<bool> _isLiked, _isDisLiked;
+  List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
 
   String thingy = "";
   String url = 'http://www.json-generator.com/api/json/get/cqgOiUXCSq?indent=2';
@@ -70,8 +73,17 @@ class _listhandlerState extends State<listhandler> {
     sponseredcontroller = new ScrollController();
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
+    platformcolor['Twitter'] = Colors.cyan;
+    platformcolor['Snapchat'] = Colors.yellow;
+    platformcolor['Nintendo'] = Colors.red;
+    platformcolor['Steam'] = Colors.black;
+    platformcolor['Playstation'] = Colors.blue;
+    platformcolor['Xbox'] = Colors.green;
+
     _isLiked = [];
+    _isLikedsponsered = [];
     _isDisLiked = [];
+    _isDisLikedsponsered = [];
 
     _scrollController = new ScrollController(
       initialScrollOffset: 0.0,
@@ -99,7 +111,7 @@ class _listhandlerState extends State<listhandler> {
   void getmoreposts() {
     Timer(Duration(milliseconds: 800), () {
       print("requested");
-
+      thingy = "req thing";
       setState(() {
         loading = false;
         post = fetchPost(
@@ -112,6 +124,7 @@ class _listhandlerState extends State<listhandler> {
   void getmoresponseredposts() {
     Timer(Duration(milliseconds: 800), () {
       print("requested sponsered");
+      thingy = "reqs thing";
 
       setState(() {
         loading = false;
@@ -183,6 +196,8 @@ class _listhandlerState extends State<listhandler> {
                 sponseredpostid
                     .add(response.data.mysponseredposts[i]['postid']);
                 sponseredvotes.add(response.data.mysponseredposts[i]['votes']);
+                _isLikedsponsered.add(false);
+                _isDisLikedsponsered.add(false);
               }
             }
           }
@@ -260,6 +275,78 @@ class _listhandlerState extends State<listhandler> {
                                   sponseredpostid[index].toString()),
                               Text("votes is " +
                                   sponseredvotes[index].toString()),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_upward),
+                                    color: _isLikedsponsered[index]
+                                        ? Colors.red
+                                        : Colors.black,
+                                    onPressed: () {
+                                      if (_isDisLikedsponsered[index] == true) {
+                                        _isDisLikedsponsered[index] =
+                                            !_isDisLikedsponsered[index];
+                                      }
+
+                                      if (_selectedIndex == index)
+                                        setState(() {
+                                          thingy = "Remove same vote " +
+                                              index.toString();
+                                          _selectedIndex = index;
+
+                                          _isLikedsponsered[index] =
+                                              !_isLikedsponsered[index];
+                                        });
+                                      else if (_selectedIndex != index) {
+                                        setState(() {
+                                          _isLikedsponsered[index] =
+                                              !_isLikedsponsered[index];
+
+                                          _selectedIndex = index;
+                                          thingy =
+                                              "new vote " + index.toString();
+                                        });
+                                      }
+                                    },
+                                  ),
+                                  SizedBox(
+                                    width: 80,
+                                  ),
+                                  IconButton(
+                                    icon: Icon(Icons.arrow_downward),
+                                    color: _isDisLikedsponsered[index]
+                                        ? Colors.red
+                                        : Colors.black,
+                                    onPressed: () {
+                                      if (_isLikedsponsered[index] == true) {
+                                        _isLikedsponsered[index] =
+                                            !_isLikedsponsered[index];
+                                      }
+
+                                      if (_selectedIndex == index)
+                                        setState(() {
+                                          thingy = "Remove same vote " +
+                                              index.toString();
+                                          _selectedIndex = index;
+
+                                          _isDisLikedsponsered[index] =
+                                              !_isDisLikedsponsered[index];
+                                        });
+                                      else if (_selectedIndex != index) {
+                                        setState(() {
+                                          _isDisLikedsponsered[index] =
+                                              !_isDisLikedsponsered[index];
+
+                                          _selectedIndex = index;
+                                          thingy =
+                                              "new vote " + index.toString();
+                                        });
+                                      }
+                                    },
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -267,6 +354,8 @@ class _listhandlerState extends State<listhandler> {
               },
             );
           }
+
+          if (postid.length < 3) getmoreposts();
 
           PostsList() {
             return ListView.builder(
@@ -277,27 +366,31 @@ class _listhandlerState extends State<listhandler> {
                 return (index == postid.length - 1 && loading)
                     ? CupertinoActivityIndicator()
                     : Container(
-                        height: 180,
+                        height: 250,
                         child: Card(
                           semanticContainer: true,
                           clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape:
-                              Border.all(width: 0.6, color: Colors.deepPurple),
+                          shape: Border.all(
+                              width: 2.6,
+                              color: platformcolor[platform[index]]),
                           color: Colors.white,
                           child: Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                             child: Column(
                               children: <Widget>[
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Image.network(
-                                      img,
-                                      height: 30,
-                                      width: 30,
+                                      "SOICAL MEDIA IMAGE HERE",
+                                      width: 50,
                                     ),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
                                     SizedBox(
-                                      width: 20,
+                                      width: 15,
                                     ),
                                     Column(
                                       children: <Widget>[
@@ -344,7 +437,7 @@ class _listhandlerState extends State<listhandler> {
                                     IconButton(
                                       icon: Icon(Icons.arrow_upward),
                                       color: _isLiked[index]
-                                          ? Colors.red
+                                          ? Colors.green[600]
                                           : Colors.black,
                                       onPressed: () {
                                         if (_isDisLiked[index] == true) {
@@ -377,7 +470,7 @@ class _listhandlerState extends State<listhandler> {
                                     IconButton(
                                       icon: Icon(Icons.arrow_downward),
                                       color: _isDisLiked[index]
-                                          ? Colors.red
+                                          ? Colors.orange[900]
                                           : Colors.black,
                                       onPressed: () {
                                         if (_isLiked[index] == true) {
@@ -421,9 +514,8 @@ class _listhandlerState extends State<listhandler> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                //
-                //sponseredpostid.length > 0
-                //   ? SizedBox(height: 250.0, child: Sponserdlist())
+                // sponseredpostid.length > 0
+                //  ? SizedBox(height: 250.0, child: Sponserdlist())
                 //    : null,
                 SizedBox(child: PostsList()),
               ],
