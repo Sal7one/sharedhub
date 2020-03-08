@@ -434,32 +434,3 @@ class _listhandlerState extends State<listhandler> {
     );
   }
 }
-
-/*
-if (downpressed &&
-                                            _selectedIndex == index)
-                                          setState(() {
-                                            thingy = "Remove same vote " +
-                                                index.toString();
-                                            _selectedIndex = index;
-                                            downpressed = false;
-                                          });
-                                        else if (_selectedIndex != index)
-                                          setState(() {
-                                            thingy =
-                                                "new vote " + index.toString();
-
-                                            _selectedIndex = index;
-                                            downpressed = true;
-                                            uppressed = false;
-                                          });
-                                        else
-                                          setState(() {
-                                            thingy = "changing votes  " +
-                                                index.toString();
-                                            downpressed = true;
-                                            uppressed = false;
-                                          });
-                                      },
-
-                                       */
