@@ -32,6 +32,7 @@ class _listhandlerState extends State<listhandler> {
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
   var platformcolor = new HashMap();
+  var platformlogo = new HashMap();
   int _selectedIndex;
   List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
 
@@ -75,10 +76,19 @@ class _listhandlerState extends State<listhandler> {
     downwardcolor = Colors.grey;
     platformcolor['Twitter'] = Colors.cyan;
     platformcolor['Snapchat'] = Colors.yellow;
+    platformcolor['Instagram'] = Colors.pink;
     platformcolor['Nintendo'] = Colors.red;
     platformcolor['Steam'] = Colors.black;
     platformcolor['Playstation'] = Colors.blue;
     platformcolor['Xbox'] = Colors.green;
+
+    platformlogo['Twitter'] = 'assets/social/twitter.png';
+    platformlogo['Snapchat'] = 'assets/social/snap.png';
+    platformlogo['Instagram'] = 'assets/social/insta.png';
+    platformlogo['Nintendo'] = 'assets/social/nintendo.png';
+    platformlogo['Steam'] = 'assets/social/steam.png';
+    platformlogo['Playstation'] = 'assets/social/ps.png';
+    platformlogo['Xbox'] = 'assets/social/xbox.png';
 
     _isLiked = [];
     _isLikedsponsered = [];
@@ -206,8 +216,7 @@ class _listhandlerState extends State<listhandler> {
 
           // TODO Get all item list for sponsered and non sponsered spertialy and check if max == to both list indivuily and show a snack bar and time out the request controller :D
           // postid.length == max? ,,,, sponseredpostid.length
-          String img =
-              "https://cdn0.iconfinder.com/data/icons/cat-avatar-flat/64/Cat_avatar_kitten-30-128.png";
+
           //Snackbar notifcation if maxed reachd DATABSE OR FLUTTER?
 
           Sponserdlist() {
@@ -229,11 +238,6 @@ class _listhandlerState extends State<listhandler> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Image.network(
-                                    img,
-                                    height: 50,
-                                    width: 50,
-                                  ),
                                   SizedBox(
                                     width: 20,
                                   ),
@@ -380,8 +384,11 @@ class _listhandlerState extends State<listhandler> {
                               children: <Widget>[
                                 Row(
                                   children: <Widget>[
-                                    Image.network(
-                                      "SOICAL MEDIA IMAGE HERE",
+                                    Image(
+                                      image: platform[index] != null
+                                          ? AssetImage(
+                                              platformlogo[platform[index]])
+                                          : null,
                                       width: 50,
                                     ),
                                   ],
