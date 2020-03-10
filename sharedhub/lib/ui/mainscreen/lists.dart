@@ -37,7 +37,7 @@ class _listhandlerState extends State<listhandler> {
   List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
 
   String thingy = "";
-  String url = 'http://www.json-generator.com/api/json/get/cqgOiUXCSq?indent=2';
+  String url = 'http://www.json-generator.com/api/json/get/cdXLxTRQVu?indent=2';
 
   //Every itration fetch a new post data post id only needed :P
   //If the post should be hidden the api handler should not included it
@@ -77,7 +77,7 @@ class _listhandlerState extends State<listhandler> {
     platformcolor['Twitter'] = Colors.cyan;
     platformcolor['Snapchat'] = Colors.yellow;
     platformcolor['Instagram'] = Colors.pink;
-    platformcolor['Nintendo'] = Colors.red;
+    platformcolor['Nintendo'] = Colors.red[900];
     platformcolor['Steam'] = Colors.black;
     platformcolor['Playstation'] = Colors.blue;
     platformcolor['Xbox'] = Colors.green;
@@ -108,12 +108,12 @@ class _listhandlerState extends State<listhandler> {
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) getmoreposts();
+          _scrollController.position.maxScrollExtent) ;
     });
 
     sponseredcontroller.addListener(() {
       if (sponseredcontroller.position.pixels ==
-          sponseredcontroller.position.maxScrollExtent) getmoresponseredposts();
+          sponseredcontroller.position.maxScrollExtent) ;
     });
   }
 
@@ -174,7 +174,6 @@ class _listhandlerState extends State<listhandler> {
 
           //Gets length of json children that are inside 'posts'
           postSize = response.data.myposts.length;
-          sponseredSize = response.data.mysponseredposts.length;
 
           for (int i = 0; i < postSize; i++) {
             // TODO -- Logic if post is hidden Item count doesnn't count it and you ignore putting it in the loop above in the same If statment below? hmmm
@@ -195,17 +194,16 @@ class _listhandlerState extends State<listhandler> {
                 }
               } else if (!sponseredpostid
                   .contains(response.data.myposts[i]['postid'])) {
-                sponseredusername.add(
-                    response.data.mysponseredposts[i]['username'].toString());
-                sponseredposttext.add(
-                    response.data.mysponseredposts[i]['posttext'].toString());
-                sponsereduserid.add(
-                    response.data.mysponseredposts[i]['userid'].toString());
-                sponseredplatform.add(
-                    response.data.mysponseredposts[i]['platform'].toString());
-                sponseredpostid
-                    .add(response.data.mysponseredposts[i]['postid']);
-                sponseredvotes.add(response.data.mysponseredposts[i]['votes']);
+                sponseredusername
+                    .add(response.data.myposts[i]['username'].toString());
+                sponseredposttext
+                    .add(response.data.myposts[i]['posttext'].toString());
+                sponsereduserid
+                    .add(response.data.myposts[i]['userid'].toString());
+                sponseredplatform
+                    .add(response.data.myposts[i]['platform'].toString());
+                sponseredpostid.add(response.data.myposts[i]['postid']);
+                sponseredvotes.add(response.data.myposts[i]['votes']);
                 _isLikedsponsered.add(false);
                 _isDisLikedsponsered.add(false);
               }
@@ -370,7 +368,6 @@ class _listhandlerState extends State<listhandler> {
                 return (index == postid.length - 1 && loading)
                     ? CupertinoActivityIndicator()
                     : Container(
-                        height: 250,
                         child: Card(
                           semanticContainer: true,
                           clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -382,130 +379,128 @@ class _listhandlerState extends State<listhandler> {
                             padding: const EdgeInsets.fromLTRB(5, 5, 0, 0),
                             child: Column(
                               children: <Widget>[
-                                Row(
+                                Wrap(
                                   children: <Widget>[
-                                    Image(
-                                      image: platform[index] != null
-                                          ? AssetImage(
-                                              platformlogo[platform[index]])
-                                          : null,
-                                      width: 50,
+                                    Text(
+                                      " Username: is very very long i have no idea why i didn't check the db for long name please send help please warp " +
+                                          username[index],
                                     ),
                                   ],
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.end,
                                   children: <Widget>[
-                                    SizedBox(
-                                      width: 15,
-                                    ),
-                                    Column(
-                                      children: <Widget>[
-                                        Text("  " +
-                                            platform[index] +
-                                            " Username:"),
-                                        Text(
-                                          " " + username[index],
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      width: 40,
-                                    ),
                                     ButtonTheme(
                                       minWidth: 30.0,
-                                      height: 40.0,
                                       child: RaisedButton(
                                         onPressed: () {
                                           print("ayyy");
                                         },
-                                        color: Colors.red,
+                                        color: platformcolor[platform[index]],
                                         child: Text("Copy"),
                                       ),
-                                    )
+                                    ),
+                                    SizedBox(width: 7)
                                   ],
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                Wrap(
                                   children: <Widget>[
-                                    Text("About me: "),
-                                    Container(
-                                      decoration:
-                                          BoxDecoration(color: Colors.white),
-                                      padding: EdgeInsets.all(15),
-                                      child: Text(posttext[index]),
-                                    ),
+                                    Text("About me: " + posttext[index]),
                                   ],
                                 ),
                                 Text("Votes: " + votes[index].toString()),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    IconButton(
-                                      icon: Icon(Icons.arrow_upward),
-                                      color: _isLiked[index]
-                                          ? Colors.green[600]
-                                          : Colors.black,
-                                      onPressed: () {
-                                        if (_isDisLiked[index] == true) {
-                                          _isDisLiked[index] =
-                                              !_isDisLiked[index];
-                                        }
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(2, 0, 0, 3),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Image(
+                                        image: platform[index] != null
+                                            ? AssetImage(
+                                                platformlogo[platform[index]])
+                                            : null,
+                                        width: 35,
+                                      ),
+                                      SizedBox(
+                                        width: 70,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          IconButton(
+                                            icon: Icon(Icons.arrow_upward),
+                                            color: _isLiked[index]
+                                                ? platformcolor[platform[index]]
+                                                : Colors.black,
+                                            onPressed: () {
+                                              if (_isDisLiked[index] == true) {
+                                                _isDisLiked[index] =
+                                                    !_isDisLiked[index];
+                                              }
 
-                                        if (_selectedIndex == index)
-                                          setState(() {
-                                            thingy = "Remove same vote " +
-                                                index.toString();
-                                            _selectedIndex = index;
+                                              if (_selectedIndex == index)
+                                                setState(() {
+                                                  thingy = "Remove same vote " +
+                                                      index.toString();
+                                                  _selectedIndex = index;
 
-                                            _isLiked[index] = !_isLiked[index];
-                                          });
-                                        else if (_selectedIndex != index) {
-                                          setState(() {
-                                            _isLiked[index] = !_isLiked[index];
+                                                  _isLiked[index] =
+                                                      !_isLiked[index];
+                                                });
+                                              else if (_selectedIndex !=
+                                                  index) {
+                                                setState(() {
+                                                  _isLiked[index] =
+                                                      !_isLiked[index];
 
-                                            _selectedIndex = index;
-                                            thingy =
-                                                "new vote " + index.toString();
-                                          });
-                                        }
-                                      },
-                                    ),
-                                    SizedBox(
-                                      width: 80,
-                                    ),
-                                    IconButton(
-                                      icon: Icon(Icons.arrow_downward),
-                                      color: _isDisLiked[index]
-                                          ? Colors.orange[900]
-                                          : Colors.black,
-                                      onPressed: () {
-                                        if (_isLiked[index] == true) {
-                                          _isLiked[index] = !_isLiked[index];
-                                        }
+                                                  _selectedIndex = index;
+                                                  thingy = "new vote " +
+                                                      index.toString();
+                                                });
+                                              }
+                                            },
+                                          ),
+                                          SizedBox(
+                                            width: 25,
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.arrow_downward),
+                                            color: _isDisLiked[index]
+                                                ? Colors.orange[600]
+                                                : Colors.black,
+                                            onPressed: () {
+                                              if (_isLiked[index] == true) {
+                                                _isLiked[index] =
+                                                    !_isLiked[index];
+                                              }
 
-                                        if (_selectedIndex == index)
-                                          setState(() {
-                                            thingy = "Remove same vote " +
-                                                index.toString();
-                                            _selectedIndex = index;
+                                              if (_selectedIndex == index)
+                                                setState(() {
+                                                  thingy = "Remove same vote " +
+                                                      index.toString();
+                                                  _selectedIndex = index;
 
-                                            _isDisLiked[index] =
-                                                !_isDisLiked[index];
-                                          });
-                                        else if (_selectedIndex != index) {
-                                          setState(() {
-                                            _isDisLiked[index] =
-                                                !_isDisLiked[index];
+                                                  _isDisLiked[index] =
+                                                      !_isDisLiked[index];
+                                                });
+                                              else if (_selectedIndex !=
+                                                  index) {
+                                                setState(() {
+                                                  _isDisLiked[index] =
+                                                      !_isDisLiked[index];
 
-                                            _selectedIndex = index;
-                                            thingy =
-                                                "new vote " + index.toString();
-                                          });
-                                        }
-                                      },
-                                    )
-                                  ],
+                                                  _selectedIndex = index;
+                                                  thingy = "new vote " +
+                                                      index.toString();
+                                                });
+                                              }
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -521,10 +516,11 @@ class _listhandlerState extends State<listhandler> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                // sponseredpostid.length > 0
-                //  ? SizedBox(height: 250.0, child: Sponserdlist())
-                //    : null,
+                sponseredpostid.length > 0
+                    ? SizedBox(height: 250.0, child: Sponserdlist())
+                    : null,
                 SizedBox(child: PostsList()),
+                SizedBox(height: 5,)
               ],
             ),
           );
