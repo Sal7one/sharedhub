@@ -482,7 +482,7 @@ class _listhandlerState extends State<listhandler> {
                                                   _selectedIndex = index;
 
                                                   _isDisLiked[index] =
-                                                      !_isDisLiked[index];
+                                                      !_isDisLiked[index]; 
                                                 });
                                               else if (_selectedIndex !=
                                                   index) {
