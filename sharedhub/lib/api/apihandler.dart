@@ -8,17 +8,10 @@ import 'package:http/http.dart' as http;
 Future<Post> fetchPost(url) async {
 //load more + custom url here url + index we got from init last item from database to future to contriller scroll ----- > database
   final response = await http.get(url);
-  //This link should be api?all sponsered = true; from seeeeqoool :D
-  final responseSponsered = await http
-      .get("http://www.json-generator.com/api/json/get/celsEkkIlK?indent=2");
 
   if (response.statusCode == 200) {
     // If the call to the server was successful, parse the JSON.
-    return Post.fromJson(
-        json.decode(response.body), json.decode(responseSponsered.body));
-  } else if (responseSponsered.statusCode == 200) {
-    return Post.fromJson(
-        json.decode(response.body), json.decode(responseSponsered.body));
+    return Post.fromJson(json.decode(response.body));
   } else {
     // If that call was not successful, throw an error.
     throw Exception('Failed to load post');
@@ -27,15 +20,12 @@ Future<Post> fetchPost(url) async {
 
 class Post {
   final myposts;
-  final mysponseredposts;
 
-  Post({this.myposts, this.mysponseredposts});
+  Post({this.myposts});
 
-  factory Post.fromJson(
-      Map<String, dynamic> json, Map<String, dynamic> sponseredpostsjson) {
+  factory Post.fromJson(Map<String, dynamic> json) {
     return Post(
       myposts: json["posts"],
-      mysponseredposts: json["posts"],
     );
   }
 }
