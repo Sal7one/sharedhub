@@ -25,9 +25,7 @@ class _listhandlerState extends State<listhandler> {
       sponseredplatform;
   List<int> postid, votes, sponseredpostid, sponseredvotes;
   List<bool> sponsered, hidden;
-  ScrollController usersscrollcontroller,
-      sponseredcontroller,
-      _scrollController;
+  ScrollController sponseredcontroller, usersscrollcontroller;
   int postSize, sponseredSize;
   bool loading, uppressed, downpressed;
   Color upwardcolor, downwardcolor = Colors.grey;
@@ -72,6 +70,7 @@ class _listhandlerState extends State<listhandler> {
     loading = false;
     usersscrollcontroller = new ScrollController();
     sponseredcontroller = new ScrollController();
+
     upwardcolor = Colors.grey;
     downwardcolor = Colors.grey;
     platformcolor['Twitter'] = Colors.cyan;
@@ -95,7 +94,7 @@ class _listhandlerState extends State<listhandler> {
     _isDisLiked = [];
     _isDisLikedsponsered = [];
 
-    _scrollController = new ScrollController(
+    usersscrollcontroller = new ScrollController(
       initialScrollOffset: 0.0,
       keepScrollOffset: true,
     );
@@ -106,14 +105,9 @@ class _listhandlerState extends State<listhandler> {
     //Store user device id.... send
     post = fetchPost(url);
 
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) ;
-    });
-
-    sponseredcontroller.addListener(() {
-      if (sponseredcontroller.position.pixels ==
-          sponseredcontroller.position.maxScrollExtent) ;
+    usersscrollcontroller.addListener(() {
+      if (usersscrollcontroller.position.pixels ==
+          usersscrollcontroller.position.maxScrollExtent) getmoreposts();
     });
   }
 
@@ -130,21 +124,6 @@ class _listhandlerState extends State<listhandler> {
     });
   }
 
-  //Get more data if scrolled to the max point
-  void getmoresponseredposts() {
-    Timer(Duration(milliseconds: 800), () {
-      print("requested sponsered");
-      thingy = "reqs thing";
-
-      setState(() {
-        loading = false;
-
-        post = fetchPost(
-            'http://www.json-generator.com/api/json/get/celsEkkIlK?indent=2');
-      });
-    });
-  }
-
   _onSelected(int index) {
     setState(() => _selectedIndex = index);
   }
@@ -152,7 +131,7 @@ class _listhandlerState extends State<listhandler> {
   // Controller clean up
   @override
   void dispose() {
-    _scrollController.dispose();
+    usersscrollcontroller.dispose();
     sponseredcontroller.dispose();
 
     super.dispose();
@@ -220,8 +199,7 @@ class _listhandlerState extends State<listhandler> {
           SponseredList(double width) {
             return ListView.builder(
               scrollDirection: Axis.horizontal,
-              controller: usersscrollcontroller,
-              physics: ClampingScrollPhysics(),
+              controller: sponseredcontroller,
               itemCount: sponseredpostid.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
@@ -276,9 +254,8 @@ class _listhandlerState extends State<listhandler> {
                                   Wrap(
                                     children: <Widget>[
                                       Container(
-                                        child: Text(
-                                            "About me: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
-                                                sponseredposttext[index]),
+                                        child: Text("About me:" +
+                                            sponseredposttext[index]),
                                         constraints:
                                             BoxConstraints(maxWidth: width),
                                       ),
@@ -315,7 +292,8 @@ class _listhandlerState extends State<listhandler> {
                                             IconButton(
                                               icon: Icon(Icons.arrow_upward),
                                               color: _isLikedsponsered[index]
-                                                  ? Colors.red
+                                                  ? platformcolor[
+                                                      sponseredplatform[index]]
                                                   : Colors.black,
                                               onPressed: () {
                                                 if (_isDisLikedsponsered[
@@ -357,7 +335,7 @@ class _listhandlerState extends State<listhandler> {
                                             IconButton(
                                               icon: Icon(Icons.arrow_downward),
                                               color: _isDisLikedsponsered[index]
-                                                  ? Colors.red
+                                                  ? Colors.orange[600]
                                                   : Colors.black,
                                               onPressed: () {
                                                 if (_isLikedsponsered[index] ==
@@ -573,14 +551,13 @@ class _listhandlerState extends State<listhandler> {
           }
 
           return SingleChildScrollView(
-            controller: _scrollController,
             scrollDirection: Axis.vertical,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 sponseredpostid.length > 0
                     ? Container(
-                        height: 270,
+                        height: MediaQuery.of(context).size.width * 0.54,
                         child: SponseredList(MediaQuery.of(context).size.width),
                       )
                     : null,
