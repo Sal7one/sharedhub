@@ -217,7 +217,7 @@ class _listhandlerState extends State<listhandler> {
 
           //Snackbar notifcation if maxed reachd DATABSE OR FLUTTER?
 
-          SponseredList() {
+          SponseredList(double width) {
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               controller: usersscrollcontroller,
@@ -581,7 +581,7 @@ class _listhandlerState extends State<listhandler> {
                 sponseredpostid.length > 0
                     ? Container(
                         height: 270,
-                        child: SponseredList(),
+                        child: SponseredList(MediaQuery.of(context).size.width),
                       )
                     : null,
                 PostsList()
