@@ -35,7 +35,7 @@ class _listhandlerState extends State<listhandler> {
   var platformlogo = new HashMap();
   int _selectedIndex;
   List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
-
+  double width;
   String thingy = "";
   String url = 'http://www.json-generator.com/api/json/get/cdXLxTRQVu?indent=2';
 
@@ -221,168 +221,185 @@ class _listhandlerState extends State<listhandler> {
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               controller: usersscrollcontroller,
+              physics: ClampingScrollPhysics(),
               itemCount: sponseredpostid.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return (index == sponseredpostid.length)
                     ? CupertinoActivityIndicator()
-                    : Container(
-                        child: Card(
-                          semanticContainer: true,
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          shape: Border.all(
-                              width: 2.8,
-                              color: platformcolor[sponseredplatform[index]]),
-                          color: Colors.white,
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(7, 5, 7, 5),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: <Widget>[
-                                Row(
-                                  children: <Widget>[
-                                    Wrap(
-                                      children: <Widget>[
-                                        Text(
-                                          "Username: " +
-                                              sponseredusername[index],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: <Widget>[
-                                    SizedBox(width: 350),
-                                    ButtonTheme(
-                                      minWidth: 30.0,
-                                      child: RaisedButton(
-                                        onPressed: () {
-                                          print("ayyy");
-                                        },
-                                        color: Colors.cyanAccent[350],
-                                        child: Text(
-                                          "Copy",
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Wrap(
-                                  children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                          "About me: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec." +
-                                              sponseredposttext[index]),
-                                      constraints:
-                                          BoxConstraints(maxWidth: 370),
-                                    ),
-                                  ],
-                                ),
-                                Text("Votes: " + votes[index].toString()),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(2, 0, 0, 3),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                    : FittedBox(
+                        child: Container(
+                          child: Card(
+                            semanticContainer: true,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            shape: Border.all(
+                                width: 5.8,
+                                color: platformcolor[sponseredplatform[index]]),
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(9, 9, 9, 9),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Row(
                                     children: <Widget>[
-                                      Image(
-                                        image: platform[index] != null
-                                            ? AssetImage(platformlogo[
-                                                sponseredplatform[index]])
-                                            : null,
-                                        width: 35,
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
+                                      Wrap(
                                         children: <Widget>[
-                                          IconButton(
-                                            icon: Icon(Icons.arrow_upward),
-                                            color: _isLikedsponsered[index]
-                                                ? Colors.red
-                                                : Colors.black,
-                                            onPressed: () {
-                                              if (_isDisLikedsponsered[index] ==
-                                                  true) {
-                                                _isDisLikedsponsered[index] =
-                                                    !_isDisLikedsponsered[
-                                                        index];
-                                              }
-
-                                              if (_selectedIndex == index)
-                                                setState(() {
-                                                  thingy = "Remove same vote " +
-                                                      index.toString();
-                                                  _selectedIndex = index;
-
-                                                  _isLikedsponsered[index] =
-                                                      !_isLikedsponsered[index];
-                                                });
-                                              else if (_selectedIndex !=
-                                                  index) {
-                                                setState(() {
-                                                  _isLikedsponsered[index] =
-                                                      !_isLikedsponsered[index];
-
-                                                  _selectedIndex = index;
-                                                  thingy = "new vote " +
-                                                      index.toString();
-                                                });
-                                              }
-                                            },
-                                          ),
-                                          SizedBox(
-                                            width: 80,
-                                          ),
-                                          IconButton(
-                                            icon: Icon(Icons.arrow_downward),
-                                            color: _isDisLikedsponsered[index]
-                                                ? Colors.red
-                                                : Colors.black,
-                                            onPressed: () {
-                                              if (_isLikedsponsered[index] ==
-                                                  true) {
-                                                _isLikedsponsered[index] =
-                                                    !_isLikedsponsered[index];
-                                              }
-
-                                              if (_selectedIndex == index)
-                                                setState(() {
-                                                  thingy = "Remove same vote " +
-                                                      index.toString();
-                                                  _selectedIndex = index;
-
-                                                  _isDisLikedsponsered[index] =
-                                                      !_isDisLikedsponsered[
-                                                          index];
-                                                });
-                                              else if (_selectedIndex !=
-                                                  index) {
-                                                setState(() {
-                                                  _isDisLikedsponsered[index] =
-                                                      !_isDisLikedsponsered[
-                                                          index];
-
-                                                  _selectedIndex = index;
-                                                  thingy = "new vote " +
-                                                      index.toString();
-                                                });
-                                              }
-                                            },
-                                          ),
-                                          SizedBox(
-                                            width: 150,
+                                          Text(
+                                            "Username: " +
+                                                sponseredusername[index],
                                           ),
                                         ],
                                       ),
                                     ],
                                   ),
-                                ),
-                              ],
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      ButtonTheme(
+                                        minWidth: 30.0,
+                                        child: RaisedButton(
+                                          onPressed: () {
+                                            print("ayyy");
+                                          },
+                                          color: Colors.cyanAccent[350],
+                                          child: Text(
+                                            "Copy",
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Wrap(
+                                    children: <Widget>[
+                                      Container(
+                                        child: Text(
+                                            "About me: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" +
+                                                sponseredposttext[index]),
+                                        constraints:
+                                            BoxConstraints(maxWidth: width),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: <Widget>[
+                                      SizedBox(width: 230),
+                                      Text("\nVotes: " +
+                                          votes[index].toString()),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.fromLTRB(2, 0, 0, 3),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: <Widget>[
+                                        Image(
+                                          image: platform[index] != null
+                                              ? AssetImage(platformlogo[
+                                                  sponseredplatform[index]])
+                                              : null,
+                                          width: 35,
+                                        ),
+                                        SizedBox(
+                                          width: 150,
+                                        ),
+                                        Row(
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(Icons.arrow_upward),
+                                              color: _isLikedsponsered[index]
+                                                  ? Colors.red
+                                                  : Colors.black,
+                                              onPressed: () {
+                                                if (_isDisLikedsponsered[
+                                                        index] ==
+                                                    true) {
+                                                  _isDisLikedsponsered[index] =
+                                                      !_isDisLikedsponsered[
+                                                          index];
+                                                }
+
+                                                if (_selectedIndex == index)
+                                                  setState(() {
+                                                    thingy =
+                                                        "Remove same vote " +
+                                                            index.toString();
+                                                    _selectedIndex = index;
+
+                                                    _isLikedsponsered[index] =
+                                                        !_isLikedsponsered[
+                                                            index];
+                                                  });
+                                                else if (_selectedIndex !=
+                                                    index) {
+                                                  setState(() {
+                                                    _isLikedsponsered[index] =
+                                                        !_isLikedsponsered[
+                                                            index];
+
+                                                    _selectedIndex = index;
+                                                    thingy = "new vote " +
+                                                        index.toString();
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                            SizedBox(
+                                              width: 25,
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.arrow_downward),
+                                              color: _isDisLikedsponsered[index]
+                                                  ? Colors.red
+                                                  : Colors.black,
+                                              onPressed: () {
+                                                if (_isLikedsponsered[index] ==
+                                                    true) {
+                                                  _isLikedsponsered[index] =
+                                                      !_isLikedsponsered[index];
+                                                }
+
+                                                if (_selectedIndex == index)
+                                                  setState(() {
+                                                    thingy =
+                                                        "Remove same vote " +
+                                                            index.toString();
+                                                    _selectedIndex = index;
+
+                                                    _isDisLikedsponsered[
+                                                            index] =
+                                                        !_isDisLikedsponsered[
+                                                            index];
+                                                  });
+                                                else if (_selectedIndex !=
+                                                    index) {
+                                                  setState(() {
+                                                    _isDisLikedsponsered[
+                                                            index] =
+                                                        !_isDisLikedsponsered[
+                                                            index];
+
+                                                    _selectedIndex = index;
+                                                    thingy = "new vote " +
+                                                        index.toString();
+                                                  });
+                                                }
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -446,9 +463,8 @@ class _listhandlerState extends State<listhandler> {
                                 Wrap(
                                   children: <Widget>[
                                     Container(
-                                      child: Text(
-                                          "About me: Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec." +
-                                              posttext[index]),
+                                      child:
+                                          Text("About me: " + posttext[index]),
                                       constraints:
                                           BoxConstraints(maxWidth: 370),
                                     ),
@@ -542,9 +558,6 @@ class _listhandlerState extends State<listhandler> {
                                               }
                                             },
                                           ),
-                                          SizedBox(
-                                            width: 150,
-                                          ),
                                         ],
                                       ),
                                     ],
@@ -561,22 +574,17 @@ class _listhandlerState extends State<listhandler> {
 
           return SingleChildScrollView(
             controller: _scrollController,
+            scrollDirection: Axis.vertical,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                SizedBox(
-                  height: 5,
-                ),
                 sponseredpostid.length > 0
-                    ? SizedBox(
-                        height: 260,
+                    ? Container(
+                        height: 270,
                         child: SponseredList(),
                       )
                     : null,
-                PostsList(),
-                SizedBox(
-                  height: 5,
-                ),
+                PostsList()
               ],
             ),
           );
