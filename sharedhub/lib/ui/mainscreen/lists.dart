@@ -3,15 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharedhub/api/apihandler.dart';
 import 'dart:async';
+import 'package:clipboard_manager/clipboard_manager.dart';
 
-class listhandler extends StatefulWidget {
-  listhandler({Key key}) : super(key: key);
+class Listhandler extends StatefulWidget {
+  Listhandler({Key key}) : super(key: key);
 
   @override
-  _listhandlerState createState() => _listhandlerState();
+  _ListhandlerState createState() => _ListhandlerState();
 }
 
-class _listhandlerState extends State<listhandler> {
+class _ListhandlerState extends State<Listhandler> {
   //Declration
   Future post;
   List<String> username,
@@ -98,9 +99,6 @@ class _listhandlerState extends State<listhandler> {
       keepScrollOffset: true,
     );
 
-    //Call the latest list elemnts from DB and it should only return 15
-    // TODO FETCH SPONSERS ALONE <---- Important for Ui to work with all indexes not 15 only
-
     //Store user device id.... send
     post = fetchPost(url);
 
@@ -123,10 +121,6 @@ class _listhandlerState extends State<listhandler> {
     });
   }
 
-  _onSelected(int index) {
-    setState(() => _selectedIndex = index);
-  }
-
   // Controller clean up
   @override
   void dispose() {
@@ -143,7 +137,6 @@ class _listhandlerState extends State<listhandler> {
       body: FutureBuilder(
         future: post,
         builder: (context, response) {
-          //If we get data render the objects, otherwise progress indicatior TODO LODAING ANIMATION
           if (!response.hasData || (response.data == null)) {
             return Center(
               child: Container(child: CupertinoActivityIndicator()),
@@ -154,7 +147,6 @@ class _listhandlerState extends State<listhandler> {
           postSize = response.data.myposts.length;
 
           for (int i = 0; i < postSize; i++) {
-            // TODO -- Logic if post is hidden Item count doesnn't count it and you ignore putting it in the loop above in the same If statment below? hmmm
             //If we already have that post in the array. Don't add it, nor it's elemnts
 
             //If post not hidden / and not already in the list and not sponsered
@@ -190,12 +182,11 @@ class _listhandlerState extends State<listhandler> {
 
           print(thingy);
 
-          // TODO Get all item list for sponsered and non sponsered spertialy and check if max == to both list indivuily and show a snack bar and time out the request controller :D
           // postid.length == max? ,,,, sponseredpostid.length
 
           //Snackbar notifcation if maxed reachd DATABSE OR FLUTTER?
 
-          SponseredList(double width) {
+          sponseredList(double width) {
             return ListView.builder(
               scrollDirection: Axis.horizontal,
               controller: sponseredcontroller,
@@ -238,7 +229,20 @@ class _listhandlerState extends State<listhandler> {
                                         minWidth: 30.0,
                                         child: RaisedButton(
                                           onPressed: () {
-                                            print("ayyy");
+                                            ClipboardManager.copyToClipBoard(
+                                                    sponseredusername[index])
+                                                .then((result) {
+                                              final snackBar = SnackBar(
+                                                content:
+                                                    Text('Copied to Clipboard'),
+                                                action: SnackBarAction(
+                                                  label: 'Undo',
+                                                  onPressed: () {},
+                                                ),
+                                              );
+                                              Scaffold.of(context)
+                                                  .showSnackBar(snackBar);
+                                            });
                                           },
                                           color: Colors.cyanAccent[350],
                                           child: Text(
@@ -387,7 +391,7 @@ class _listhandlerState extends State<listhandler> {
 
           if (postid.length < 3) getmoreposts();
 
-          PostsList() {
+          pponseredList() {
             return ListView.builder(
               controller: usersscrollcontroller,
               itemCount: postid.length,
@@ -426,7 +430,20 @@ class _listhandlerState extends State<listhandler> {
                                       minWidth: 30.0,
                                       child: RaisedButton(
                                         onPressed: () {
-                                          print("ayyy");
+                                          ClipboardManager.copyToClipBoard(
+                                                  username[index])
+                                              .then((result) {
+                                            final snackBar = SnackBar(
+                                              content:
+                                                  Text('Copied to Clipboard'),
+                                              action: SnackBarAction(
+                                                label: 'Undo',
+                                                onPressed: () {},
+                                              ),
+                                            );
+                                            Scaffold.of(context)
+                                                .showSnackBar(snackBar);
+                                          });
                                         },
                                         color: Colors.cyanAccent[350],
                                         child: Text(
@@ -557,10 +574,10 @@ class _listhandlerState extends State<listhandler> {
                 sponseredpostid.length > 0
                     ? Container(
                         height: MediaQuery.of(context).size.width * 0.54,
-                        child: SponseredList(MediaQuery.of(context).size.width),
+                        child: sponseredList(MediaQuery.of(context).size.width),
                       )
                     : null,
-                PostsList()
+                pponseredList()
               ],
             ),
           );
