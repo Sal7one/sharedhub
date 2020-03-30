@@ -35,7 +35,7 @@ class _ListhandlerState extends State<Listhandler> {
   List<bool> _isLiked, _isDisLiked, _isLikedsponsered, _isDisLikedsponsered;
   double width;
   String thingy = "";
-  String url = 'http://www.json-generator.com/api/json/get/cdXLxTRQVu?indent=2';
+  String url = 'http://www.json-generator.com/api/json/get/bQheuzEjZu?indent=2';
 
   //Every itration fetch a new post data post id only needed :P
   //If the post should be hidden the api handler should not included it
