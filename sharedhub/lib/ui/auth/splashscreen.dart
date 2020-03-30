@@ -28,7 +28,7 @@ class _SplashScreenState extends State<Splash>
       _animationController.reverse();
     });
 
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 4), () {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => MainScreen()));
     });
