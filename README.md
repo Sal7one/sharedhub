@@ -6,8 +6,10 @@ A simple app I made to practice Theses things in Flutter:
  
  2- Animations
  
- 3- Http requests and json parsing
+ 3- HTTP requests and json parsing
  
  4- Handling user clicks
  
  5- Handling the clipboard
+ 
+ 6- Custom Local Upvote downvote system! :)
