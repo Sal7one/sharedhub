@@ -24,7 +24,9 @@ class _SplashScreenState extends State<Splash>
     );
 
     _animation.addListener(() => this.setState(() {}));
-    _animationController.forward();
+    _animationController.forward().then((f) {
+      _animationController.reverse();
+    });
 
     Timer(Duration(seconds: 3), () {
       Navigator.push(
@@ -60,7 +62,7 @@ class _SplashScreenState extends State<Splash>
                           color: Colors.red,
                         ),
                         Text(
-                          " In Saleh studios",
+                          " By: Saleh Alanazi \n Github: Sal7one ",
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16),
                         )

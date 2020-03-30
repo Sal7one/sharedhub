@@ -6,7 +6,7 @@ import 'ui//mainscreen/lists.dart';
 
 void main() => runApp(
       MaterialApp(
-        home: MainScreen(),
+        home: Splash(),
       ),
     );
 

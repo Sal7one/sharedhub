@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-Color headercolor = Colors.black;
-Color iconcolor = Colors.green;
+Color headercolor = Colors.blueAccent;
+Color iconcolor = Colors.grey[300];
 
 header() {
   return Container(
@@ -20,7 +20,7 @@ header() {
           width: 7,
         ),
         Text(
-          "The Cat in the hat!",
+          "Press me to play that animation again!",
           style: TextStyle(color: Colors.white, fontSize: 16),
         )
       ],

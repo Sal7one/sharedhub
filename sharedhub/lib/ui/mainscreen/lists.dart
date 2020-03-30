@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sharedhub/api/apihandler.dart';
@@ -211,15 +210,17 @@ class _listhandlerState extends State<listhandler> {
                             semanticContainer: true,
                             clipBehavior: Clip.antiAliasWithSaveLayer,
                             shape: Border.all(
-                                width: 5.8,
+                                width: 4.8,
                                 color: platformcolor[sponseredplatform[index]]),
                             color: Colors.white,
                             child: Padding(
                               padding: const EdgeInsets.fromLTRB(9, 9, 9, 9),
                               child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: <Widget>[
                                       Wrap(
                                         children: <Widget>[
@@ -232,8 +233,6 @@ class _listhandlerState extends State<listhandler> {
                                     ],
                                   ),
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
                                       ButtonTheme(
                                         minWidth: 30.0,
