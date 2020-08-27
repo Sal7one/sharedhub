@@ -13,3 +13,5 @@ A simple app I made to practice Theses things in Flutter:
  5- Handling the clipboard
  
  6- Custom Local Upvote downvote system! :)
+
+# DEMO
