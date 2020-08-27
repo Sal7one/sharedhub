@@ -15,3 +15,5 @@ A simple app I made to practice Theses things in Flutter:
  6- Custom Local Upvote downvote system! :)
 
 # DEMO
+
+![](app.gif)
